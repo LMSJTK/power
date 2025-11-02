@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS flags (
     game_id INT NOT NULL,
     owner_color ENUM('red', 'yellow', 'green', 'white') NOT NULL,
     current_location VARCHAR(10) NOT NULL, -- normally at HQ
-    captured_by ENUM('red', 'yellow', 'green', 'white', NULL) DEFAULT NULL,
+    captured_by ENUM('red', 'yellow', 'green', 'white') DEFAULT NULL,
     UNIQUE KEY unique_game_flag (game_id, owner_color),
     FOREIGN KEY (game_id) REFERENCES games(game_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
