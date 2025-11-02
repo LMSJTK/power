@@ -53,35 +53,4 @@ try {
     $_SESSION['error'] = 'Failed to create game: ' . $e->getMessage();
     redirect('../lobby.php');
 }
-
-function initializeGameForPlayer($db, $game_id, $color) {
-    // Create flag at HQ
-    $hq = strtoupper($color) . 'HQ';
-    $stmt = $db->prepare("
-        INSERT INTO flags (game_id, owner_color, current_location)
-        VALUES (?, ?, ?)
-    ");
-    $stmt->execute([$game_id, $color, $hq]);
-
-    // Give starting units (2 infantry, 2 tanks, 2 fighters, 2 destroyers)
-    $starting_units = [
-        ['type' => 'infantry', 'count' => 2],
-        ['type' => 'tank', 'count' => 2],
-        ['type' => 'fighter', 'count' => 2],
-        ['type' => 'destroyer', 'count' => 2]
-    ];
-
-    $reserve = strtoupper($color) . 'R';
-
-    foreach ($starting_units as $unit_group) {
-        for ($i = 0; $i < $unit_group['count']; $i++) {
-            $power = UNIT_STATS[$unit_group['type']]['power'];
-            $stmt = $db->prepare("
-                INSERT INTO units (game_id, owner_color, unit_type, location, power_value, is_new)
-                VALUES (?, ?, ?, ?, ?, FALSE)
-            ");
-            $stmt->execute([$game_id, $color, $unit_group['type'], $reserve, $power]);
-        }
-    }
-}
 ?>

@@ -67,7 +67,6 @@ try {
     $stmt->execute([$game_id, $user_id, $available_color]);
 
     // Initialize game state for this player
-    require_once 'create_game.php';
     initializeGameForPlayer($db, $game_id, $available_color);
 
     $db->commit();
